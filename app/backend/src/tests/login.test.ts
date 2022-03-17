@@ -20,7 +20,8 @@ describe('Rota /login', () => {
   }
 
   before(async () => {
-    Sinon.stub(Users, 'findOne')
+    Sinon
+      .stub(Users, 'findOne')
       .resolves({
         ...userMock.findOne
       } as Users);
