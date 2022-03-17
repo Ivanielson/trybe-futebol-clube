@@ -4,15 +4,15 @@ import db from '.';
 
 class Users extends Model {
   // public <campo>!: <tipo>;
-  declare id: number;
+  id: number;
 
-  declare username: string;
+  username: string;
 
-  declare role: string;
+  role: string;
 
-  declare email: string;
+  email: string;
 
-  declare password: string;
+  password: string;
 }
 
 Users.init({
@@ -41,7 +41,7 @@ Users.init({
 }, {
   underscored: true,
   sequelize: db,
-  tableName: 'clubs',
+  tableName: 'users',
   timestamps: false,
 });
 
