@@ -1,4 +1,5 @@
 import * as express from 'express';
+import loginRoute from './routes/loginRouter';
 
 class App {
   public app: express.Express;
@@ -28,6 +29,11 @@ class App {
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
       console.log(`Escutando na porta: ${PORT}`);
+    });
+
+    this.app.use('/login', loginRoute);
+    this.app.get('/', (_req: express.Request, res: express.Response) => {
+      res.send('Funciona!');
     });
   }
 }
