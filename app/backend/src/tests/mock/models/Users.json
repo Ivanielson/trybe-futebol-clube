@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "username": "John Lennon",
+    "role": "admin",
+    "email": "john_lennon@gmail.com",
+    "password": "testando"
+  },
+  {
+    "id": 2,
+    "username": "Paul McCartney",
+    "role": "user",
+    "email": "mccartney.paul@gmail.com",
+    "password": "testando123"
+  }
+]
