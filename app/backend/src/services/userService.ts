@@ -1,14 +1,14 @@
-import Users from '../database/models/Users';
-import ILogin from '../interfaces/ILogin';
+// import Users from '../database/models/Users';
 
 export default class UserService {
-  private userModel = Users;
 
-  async authentication(user: ILogin) {
-    const login = await this.userModel.findOne({
-      where: { ...user },
-      attributes: ['id', 'username', 'role', 'email'],
-    });
-    return login;
-  }
+  // async create() {}
+
+  // async getAll() {}
+
+  // async getById() {}
+
+  // async update() {}
+
+  // async deleteById() {}
 }
