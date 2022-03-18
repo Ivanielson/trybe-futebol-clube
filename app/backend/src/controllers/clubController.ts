@@ -11,4 +11,14 @@ export default class ClubController {
       console.error(error);
     }
   }
+
+  static async getById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const club = await ClubesService.getById(Number(id));
+      return res.status(StatusCode.OK).json(club);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
