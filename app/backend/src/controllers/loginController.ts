@@ -1,28 +1,29 @@
 import Jwt = require('jsonwebtoken');
 import fs = require('fs');
+import { Request, Response } from 'express';
 import ILogin from '../interfaces/ILogin';
-import UserService from '../services/userService';
+import LoginService from '../services/loginService';
+import StatusCode from '../enums/StatusCode';
+import toUserLogin from '../functions/toUserLogin';
+
+const SECRET = fs.readFileSync('jwt.evaluation.key', 'utf-8');
+const MESSAGE_ERROR_INCORRECT = 'Incorrect email or password';
 
 export default class LoginController {
-  private userService = new UserService();
-
-  async authentication(user: ILogin) {
-    const secret = fs.readFileSync('jwt.evaluation.key', 'utf-8');
-    const login = await this.userService.authentication(user);
-
-    if (!login) {
-      return { message: 'Incorrect email or password' };
+  static async login(req: Request, res: Response) {
+    try {
+      const user = req.body as ILogin;
+      const userValid = await LoginService.authentication(user);
+      if (!userValid) {
+        return res.status(StatusCode.UNAUTHORIZED).json({
+          message: MESSAGE_ERROR_INCORRECT,
+        });
+      }
+      const token = Jwt.sign({ data: userValid }, SECRET);
+      const result = toUserLogin(userValid, token);
+      res.status(StatusCode.OK).json(result);
+    } catch (error) {
+      console.error(error);
     }
-    const token = Jwt.sign({ data: login }, secret);
-
-    return {
-      user: {
-        id: login?.id,
-        username: login?.username,
-        role: login?.role,
-        email: login?.email,
-      },
-      token,
-    };
   }
 }
