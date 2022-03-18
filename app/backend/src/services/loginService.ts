@@ -7,7 +7,9 @@ export default class LoginService {
     try {
       const login = await Users.findOne({
         where: { email },
+        raw: true,
       });
+
       return login as IUser;
     } catch (error) {
       console.error(error);
