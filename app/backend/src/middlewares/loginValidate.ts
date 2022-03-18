@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
+import LoginService from '../services/loginService';
 import StatusCode from '../enums/StatusCode';
+import IUser from '../interfaces/IUser';
+import { checkPassword } from '../functions/toUserLogin';
 
 const MESSAGE_ERROR = 'All fields must be filled';
+const MESSAGE_ERROR_INCORRECT = 'Incorrect email or password';
 
 const emailExists = (req: Request, res: Response, next: NextFunction) => {
   const { body } = req;
@@ -43,7 +47,25 @@ const emailValid = (req: Request, res: Response, next: NextFunction) => {
   const validate = reg.test(email);
   if (!validate) {
     return res.status(StatusCode.UNAUTHORIZED).json({
-      message: MESSAGE_ERROR,
+      message: MESSAGE_ERROR_INCORRECT,
+    });
+  }
+
+  next();
+};
+
+const validUser = async (req: Request, res: Response, next: NextFunction) => {
+  const login = req.body as IUser;
+  const user = await LoginService.authentication(login.email);
+  if (!user) {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR_INCORRECT,
+    });
+  }
+  const check = checkPassword(user.password, login.password);
+  if (!check) {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR_INCORRECT,
     });
   }
 
@@ -55,4 +77,5 @@ export {
   passwordExist,
   emailValid,
   passwordValid,
+  validUser,
 };
