@@ -1,33 +1,58 @@
-// import { Request, Response, NextFunction } from 'express';
-// import StatusCode from '../enums/StatusCode';
-
-// const emailExists = (req: Request, res: Response, next: NextFunction) => {
-//   const { body } = req;
-//   const bodyKeys = Object.keys(body);
-//   if (!bodyKeys.includes('email')) {
-//     return res.status(StatusCode.BAD_REQUEST).json();
-//   }
-
-//   next();
-// };
-
-// export default emailExists;
-
-import { NextFunction, Request, Response } from 'express';
-import ILogin from '../interfaces/ILogin';
+import { Request, Response, NextFunction } from 'express';
 import StatusCode from '../enums/StatusCode';
-import schemaLogin from './schemas';
 
-const validLogin = (req: Request, res: Response, next: NextFunction) => {
-  const theater = req.body as ILogin;
-  const validate = schemaLogin.validate(theater);
-  if (validate.error) {
-    const { message } = validate.error.details[0];
-    const code = message
-      .includes('is required') ? StatusCode.BAD_REQUEST : StatusCode.UNPROCESSABLE_ENTITY;
-    return res.status(code).json({ message });
+const MESSAGE_ERROR = 'All fields must be filled';
+
+const emailExists = (req: Request, res: Response, next: NextFunction) => {
+  const { body } = req;
+  const bodyKeys = Object.keys(body);
+  if (!bodyKeys.includes('email')) {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR,
+    });
   }
+
   next();
 };
 
-export default validLogin;
+const passwordExist = (req: Request, res: Response, next: NextFunction) => {
+  const { body } = req;
+  const bodyKeys = Object.keys(body);
+  if (!bodyKeys.includes('password')) {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR,
+    });
+  }
+
+  next();
+};
+
+const passwordValid = (req: Request, res: Response, next: NextFunction) => {
+  const { password } = req.body;
+  if (password.length <= 6 || typeof password !== 'string') {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR,
+    });
+  }
+
+  next();
+};
+const emailValid = (req: Request, res: Response, next: NextFunction) => {
+  const { email } = req.body;
+  const reg = /\S+@\S+\.\S+/;
+  const validate = reg.test(email);
+  if (!validate) {
+    return res.status(StatusCode.UNAUTHORIZED).json({
+      message: MESSAGE_ERROR,
+    });
+  }
+
+  next();
+};
+
+export {
+  emailExists,
+  passwordExist,
+  emailValid,
+  passwordValid,
+};
