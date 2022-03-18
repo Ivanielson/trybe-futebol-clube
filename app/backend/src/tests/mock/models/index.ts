@@ -4,34 +4,39 @@
 */
 import Users = require('./Users.json');
 import IUser from '../../../interfaces/IUser';
+import Jwt = require('jsonwebtoken');
+import fs = require('fs');
+import { toUserLogin } from '../../../functions/helpers';
+
+const SECRET = fs.readFileSync('jwt.evaluation.key', 'utf-8');
 
 type Login = {
   email: string;
   password: string;
 }
 
-class UserMock {
+class LoginMock {
   constructor(
     private users: IUser[]
   ) {}
 
-  public login (payLoad: Login): Boolean {
+  public login (payLoad: Login) {
     const { email, password } = payLoad;
     const userValid = this.users.find((user) => (
       user.password === password && user.email === email
-    ));
-    if (userValid) {
-      return true;
+    )) as IUser;
+    if (!userValid) {
+      const token = Jwt.sign({data: userValid}, SECRET);
+      const result = toUserLogin(userValid, token);
+      return result;
     }
-    
-    return false;
   }
 }
 
-const userMoch = new UserMock(Users);
+const userMoch = new LoginMock(Users);
 
-const User = {
-  findOne: async (payload: Login) => userMoch.login(payload),
+const userLogin = {
+  authentication: async (payLoad: Login) => userMoch.login(payLoad),
 };
 
 // const mockCreate = (Instance, data) => {
@@ -54,5 +59,5 @@ const User = {
 // };
 
 export {
-  User,
+  userLogin,
 };

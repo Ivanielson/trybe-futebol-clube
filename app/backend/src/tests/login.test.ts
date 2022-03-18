@@ -1,12 +1,13 @@
 import * as chai from "chai";
 import chaiHttp = require('chai-http');
 import * as Sinon from "sinon";
-import { User as userMock } from './mock/models';
+import { userLogin } from './mock/models';
 
 import { Response } from 'superagent';
 
 import { app } from '../app';
-import Users from '../database/models/Users';
+import loginService from '../services/loginService';
+import IUser from "../interfaces/IUser";
 
 chai.use(chaiHttp);
 
@@ -21,14 +22,14 @@ describe('Rota /login', () => {
 
   before(async () => {
     Sinon
-      .stub(Users, 'findOne')
+      .stub(loginService, 'authentication')
       .resolves({
-        ...userMock.findOne
-      } as Users);
+        ...userLogin.authentication
+      } as IUser);
   });
 
   after(() => {
-    (Users.findOne as Sinon.SinonStub).restore();
+    (userLogin.authentication as Sinon.SinonStub).restore();
   });
 
   it('Se usuário válido retorna true', async () => {
@@ -37,6 +38,7 @@ describe('Rota /login', () => {
          .post('/login')
          .send(payLoad);
   
-      expect(chaiHttpResponse.body).to.have.true;
+      expect(chaiHttpResponse.body).to.be.a('object');
+      expect(chaiHttpResponse).to.be.property('user');
   });
 });
