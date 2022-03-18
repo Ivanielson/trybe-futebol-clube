@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs';
 import IUser from '../interfaces/IUser';
 
 const toUserLogin = (user: IUser, token: string) => {
@@ -13,4 +14,9 @@ const toUserLogin = (user: IUser, token: string) => {
   };
 };
 
-export default toUserLogin;
+const checkPassword = (hashDb: string, password: string) => {
+  const check = bcrypt.compareSync(password, hashDb);
+  return check;
+};
+
+export { toUserLogin, checkPassword };
