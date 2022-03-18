@@ -1,5 +1,7 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import loginRoute from './routes/loginRouter';
+import clubsRouter from './routes/clubRouter';
 
 class App {
   public app: express.Express;
@@ -22,6 +24,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+    this.app.use(cors());
     // ...
   }
 
@@ -32,9 +35,7 @@ class App {
     });
 
     this.app.use('/login', loginRoute);
-    this.app.get('/', (_req: express.Request, res: express.Response) => {
-      res.send('Funciona!');
-    });
+    this.app.use('/clubs', clubsRouter);
   }
 }
 
