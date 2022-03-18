@@ -7,9 +7,10 @@ const loginRoute = Router();
 loginRoute.post(
   '/',
   validate.emailExists,
-  validate.passwordExist,
   validate.emailValid,
+  validate.passwordExist,
   validate.passwordValid,
+  validate.validUser,
   LoginController.login,
 );
 
