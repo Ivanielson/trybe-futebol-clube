@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import ILogin from '../interfaces/ILogin';
 import LoginService from '../services/loginService';
 import StatusCode from '../enums/StatusCode';
-import { toUserLogin } from '../functions/toUserLogin';
+import { toUserLogin } from '../functions/helpers';
 
 const SECRET = fs.readFileSync('jwt.evaluation.key', 'utf-8');
 // const MESSAGE_ERROR_INCORRECT = 'Incorrect email or password';

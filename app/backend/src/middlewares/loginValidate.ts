@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import LoginService from '../services/loginService';
 import StatusCode from '../enums/StatusCode';
 import IUser from '../interfaces/IUser';
-import { checkPassword } from '../functions/toUserLogin';
+import { checkPassword } from '../functions/helpers';
 
 const MESSAGE_ERROR = 'All fields must be filled';
 const MESSAGE_ERROR_INCORRECT = 'Incorrect email or password';
