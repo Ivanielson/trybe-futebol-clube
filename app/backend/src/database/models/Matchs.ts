@@ -5,17 +5,17 @@ import Clubs from './Clubs';
 
 class Matchs extends Model {
   // public <campo>!: <tipo>;
-  declare id: number;
+  id: number;
 
-  declare homeTeam: number;
+  homeTeam: number;
 
-  declare homeTeamGols: number;
+  homeTeamGols: number;
 
-  declare awayTeam: number;
+  awayTeam: number;
 
-  declare awayTeamGols: number;
+  awayTeamGols: number;
 
-  declare inProgress: number;
+  inProgress: number;
 }
 
 Matchs.init({
@@ -42,7 +42,7 @@ Matchs.init({
     allowNull: false,
   },
   inProgress: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
 }, {
