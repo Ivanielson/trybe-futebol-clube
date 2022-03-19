@@ -14,8 +14,7 @@ export default class MatchService {
           as: 'awayClub',
           attributes: ['clubName'],
         },
-      ],
-      raw: true });
+      ] });
       return matchs as unknown as IMatch[];
     } catch (error) {
       console.error(error);
