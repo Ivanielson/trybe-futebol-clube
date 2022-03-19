@@ -7,15 +7,6 @@ import StatusCode from '../enums/StatusCode';
 import { toUserLogin } from '../functions/helpers';
 
 const SECRET = fs.readFileSync('jwt.evaluation.key', 'utf-8');
-type VerifyJWT = {
-  data: {
-    id: number;
-    username: string;
-    role: string;
-    email: string;
-    password: string;
-  }
-};
 
 export default class LoginController {
   static async login(req: Request, res: Response) {
@@ -35,8 +26,8 @@ export default class LoginController {
   static validateToken(req: Request, res: Response) {
     const token = req.headers.authorization;
     if (token) {
-      const decoded = Jwt.verify(token, SECRET) as VerifyJWT;
-      return res.status(StatusCode.OK).json(decoded.data.role);
+      const role = LoginService.validateToken(token);
+      return res.status(StatusCode.OK).json(role);
     }
   }
 }
