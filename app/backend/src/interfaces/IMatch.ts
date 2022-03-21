@@ -1,4 +1,4 @@
-export default interface IMatch {
+export interface IMatch {
   id: number;
   homeTeam: number;
   homeTeamGoals: number;
@@ -11,5 +11,12 @@ export default interface IMatch {
   awayClub: {
     clubName: string;
   }
+}
 
+export interface IMatchNew {
+  homeTeam: number;
+  awayTeam: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
 }
