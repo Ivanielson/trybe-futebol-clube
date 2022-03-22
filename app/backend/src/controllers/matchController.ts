@@ -15,13 +15,9 @@ export default class MatchContoller {
 
   static async create(req: Request, res: Response) {
     try {
-      const {
-        homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
-      } = req.body as IMatchNew;
-      const newMatch = await MatchService.create({
-        homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
-      });
-      return res.status(StatusCode.OK).json(newMatch);
+      const match = req.body as IMatchNew;
+      const newMatch = await MatchService.create(match);
+      return res.status(StatusCode.CREATED).json(newMatch);
     } catch (error) {
       console.error(error);
     }
