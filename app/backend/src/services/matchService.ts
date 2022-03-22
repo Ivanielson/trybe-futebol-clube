@@ -40,4 +40,16 @@ export default class MatchService {
       console.error(error);
     }
   }
+
+  static async finishMatch(id: number, inProgress: number) {
+    try {
+      await Matchs.update(
+        { inProgress },
+        { where: { id } },
+      );
+      return { inProgress };
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
