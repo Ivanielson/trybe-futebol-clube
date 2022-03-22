@@ -22,7 +22,6 @@ const teamExist = async (req: Request, res: Response, next: NextFunction) => {
 
 const areDifferentTeams = (req: Request, res: Response, next: NextFunction) => {
   const { homeTeam, awayTeam } = req.body;
-  console.log(homeTeam, awayTeam);
   if (homeTeam === awayTeam) {
     return res.status(StatusCode.UNAUTHORIZED).json({
       message: 'It is not possible to create a match with two equal teams',
