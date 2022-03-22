@@ -22,4 +22,16 @@ export default class MatchContoller {
       console.error(error);
     }
   }
+
+  static async finishMatch(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { inProgress } = req.body;
+      const statusValue = inProgress === 'true' ? 1 : 0;
+      const finish = await MatchService.finishMatch(Number(id), statusValue);
+      return res.status(StatusCode.OK).json(finish);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
