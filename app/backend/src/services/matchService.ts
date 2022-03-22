@@ -22,7 +22,12 @@ export default class MatchService {
   }
 
   static async create(match: IMatchNew) {
-    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = match;
+    const {
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress } = match;
     try {
       const newMatch = await Matchs.create({
         homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
