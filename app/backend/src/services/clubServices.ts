@@ -4,7 +4,7 @@ import Clubs from '../database/models/Clubs';
 export default class ClubesService {
   static async getAll() {
     try {
-      const clubs = await Clubs.findAll({ raw: true });
+      const clubs = await Clubs.findAll();
       return clubs as unknown as IClub[];
     } catch (error) {
       console.error(error);
@@ -13,7 +13,7 @@ export default class ClubesService {
 
   static async getById(id: number) {
     try {
-      const club = await Clubs.findByPk(id, { raw: true });
+      const club = await Clubs.findByPk(id);
       return club as unknown as IClub;
     } catch (error) {
       console.error(error);
