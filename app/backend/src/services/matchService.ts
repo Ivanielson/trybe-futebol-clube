@@ -2,6 +2,11 @@ import { IMatch, IMatchNew } from '../interfaces/IMatch';
 import Clubs from '../database/models/Clubs';
 import Matchs from '../database/models/Matchs';
 
+type MatchUpdate = {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+};
+
 export default class MatchService {
   static async getAll() {
     try {
@@ -48,6 +53,22 @@ export default class MatchService {
         { where: { id } },
       );
       return { inProgress };
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async updateMatch(id: number, goals: MatchUpdate) {
+    try {
+      const { homeTeamGoals, awayTeamGoals } = goals;
+      await Matchs.update(
+        { homeTeamGoals, awayTeamGoals },
+        { where: { id } },
+      );
+      return {
+        homeTeamGoals,
+        awayTeamGoals,
+      };
     } catch (error) {
       console.error(error);
     }
