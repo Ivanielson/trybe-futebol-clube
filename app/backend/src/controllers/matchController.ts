@@ -3,6 +3,11 @@ import { IMatchNew } from '../interfaces/IMatch';
 import StatusCode from '../enums/StatusCode';
 import MatchService from '../services/matchService';
 
+type MatchUpdate = {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+};
+
 export default class MatchContoller {
   static async getAll(_req: Request, res: Response) {
     try {
@@ -30,6 +35,17 @@ export default class MatchContoller {
       const statusValue = inProgress === 'true' ? 1 : 0;
       const finish = await MatchService.finishMatch(Number(id), statusValue);
       return res.status(StatusCode.OK).json(finish);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async updateMatch(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const goals = req.body as MatchUpdate;
+      const matchUpdate = await MatchService.updateMatch(Number(id), goals);
+      return res.status(StatusCode.OK).json(matchUpdate);
     } catch (error) {
       console.error(error);
     }
