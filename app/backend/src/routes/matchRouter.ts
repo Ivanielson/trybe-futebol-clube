@@ -13,5 +13,6 @@ matchRouter.post(
   verifyJWT,
   MatchContoller.create,
 );
+matchRouter.patch('/:id/finish', MatchContoller.finishMatch);
 
 export default matchRouter;
