@@ -6,15 +6,15 @@ import { Response } from 'superagent';
 
 import { app } from '../app';
 
-import { IMatch } from "../interfaces/IMatch";
+import { IMatch } from '../interfaces/IMatch';
 import MatchService from "../services/matchService";
-import matchs = require('./mock/match.json');
+import { matchs, matchCreate } from './mock/match';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Rota /matchs', () => {
+describe('Rotas matchs', () => {
   describe('Requisição para "GET /matchs"', () => {
     let chaiHttpResponse: Response;
 
@@ -31,7 +31,15 @@ describe('Rota /matchs', () => {
         .request(app)
         .get('/matchs');
 
-      expect(chaiHttpResponse.body).to.be.have.a('objetc');
+        expect(chaiHttpResponse.body).to.be.have.a('array');
+        expect(chaiHttpResponse.body).to.be.have.length(3);
+    });
+
+    it('Deveria as propriedades matchs corretamente', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/matchs');
+
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('id');
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('homeTeam');
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('homeTeamGoals');
@@ -39,6 +47,84 @@ describe('Rota /matchs', () => {
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('awayTeamGoals');
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('inProgress');
       expect(chaiHttpResponse.body[0]).to.be.have.a.property('homeClub');
+      expect(chaiHttpResponse.body[0]).to.be.have.a.property('awayClub');
+      expect(chaiHttpResponse.body[0].homeClub).to.be.have.a.property('clubName');
+      expect(chaiHttpResponse.body[0].awayClub).to.be.have.a.property('clubName');
+    });
+
+    it('Deveria retornar o status da requisição: 200', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/matchs');
+
+      expect(chaiHttpResponse.status).to.be.equal(200);
+    });
+  });
+
+  describe('Requisição para "POST /matchs"', () => {
+    let chaiHttpResponse: Response;
+    let chaiHttpLogin: Response;
+    type NewMatch = {
+      id: number;
+      homeTeam: number;
+      awayTeam: number;
+      homeTeamGoals: number;
+      awayTeamGoals: number;
+      inProgress: boolean;
+    }
+
+    const payLoad = {
+      homeTeam: 16,
+      awayTeam: 8,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true
+    }
+
+    const user = {
+      email: 'admin@admin.com',
+      password: 'secret_admin'
+    };
+
+    before(async () => {
+      Sinon.stub(MatchService, 'create')
+        .resolves(matchCreate as NewMatch);
+
+      chaiHttpLogin = await chai
+        .request(app)
+        .post('/login')
+        .send(user);
+    });
+
+    after(() => {
+      (MatchService.create as Sinon.SinonStub).restore();
+    });
+
+    it('Deveria retorna um objeto com as propriedades corretas', async () => {
+      const token = chaiHttpLogin.body.token;
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/matchs')
+        .set({ Authorization: token })
+        .send(payLoad);
+
+      expect(chaiHttpResponse.body).to.be.have.a('object');
+      expect(chaiHttpResponse.body).to.be.have.a.property('homeTeam');
+      expect(chaiHttpResponse.body).to.be.have.a.property('homeTeamGoals');
+      expect(chaiHttpResponse.body).to.be.have.a.property('awayTeamGoals');
+      expect(chaiHttpResponse.body).to.be.have.a.property('inProgress');
+
+    });
+
+    it('Deveria retor o status da requisição: 201', async () => {
+      const token = chaiHttpLogin.body.token;
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/matchs')
+        .set({ Authorization: token })
+        .send(payLoad);
+
+      expect(chaiHttpResponse.status).to.be.equal(201);
     });
   });
 });
