@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import loginRoute from './routes/loginRouter';
 import clubsRouter from './routes/clubRouter';
 import matchRouter from './routes/matchRouter';
+import leaderboardRouter from './routes/LeaderBoardRouter';
 
 class App {
   public app: express.Express;
@@ -26,6 +27,10 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use(cors());
+    this.app.use('/login', loginRoute);
+    this.app.use('/clubs', clubsRouter);
+    this.app.use('/matchs', matchRouter);
+    this.app.use('/leaderboard', leaderboardRouter);
     // ...
   }
 
@@ -34,10 +39,6 @@ class App {
     this.app.listen(PORT, () => {
       console.log(`Escutando na porta: ${PORT}`);
     });
-
-    this.app.use('/login', loginRoute);
-    this.app.use('/clubs', clubsRouter);
-    this.app.use('/matchs', matchRouter);
   }
 }
 
