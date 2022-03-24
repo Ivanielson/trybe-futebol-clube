@@ -8,11 +8,7 @@ export default class LoginController {
     try {
       const user = req.body as ILogin;
       const userValid = await LoginService.authentication(user.email);
-      // if (!userValid) {
-      //   return res.status(StatusCode.UNAUTHORIZED).json({
-      //     message: 'Incorrect email or password',
-      //   });
-      // }
+
       res.status(StatusCode.OK).json(userValid);
     } catch (error) {
       console.error(error);
