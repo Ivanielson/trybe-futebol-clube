@@ -6,10 +6,7 @@ const loginRoute = Router();
 
 loginRoute.post(
   '/',
-  validate.emailExists,
-  validate.emailValid,
-  validate.passwordExist,
-  validate.passwordValid,
+  validate.validFields,
   validate.validUser,
   LoginController.authentication,
 );
