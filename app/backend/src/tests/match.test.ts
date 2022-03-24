@@ -61,7 +61,7 @@ describe('Rotas matchs', () => {
     });
   });
 
-  describe('Requisição para "POST /matchs"', () => {
+  describe('Requisição para "POST /matchs" com Token válido', () => {
     let chaiHttpResponse: Response;
     let chaiHttpLogin: Response;
     type NewMatch = {
@@ -102,6 +102,9 @@ describe('Rotas matchs', () => {
 
     it('Deveria retorna um objeto com as propriedades corretas', async () => {
       const token = chaiHttpLogin.body.token;
+  /* Utilizei com referencia o conteúdo desse link para entender como
+    enviar informações no headers da requisição*/
+  // REF: https://stackoverflow.com/questions/57668262/how-to-send-headers-authorization-bearer-token-in-mocha-test-cases
       chaiHttpResponse = await chai
         .request(app)
         .post('/matchs')
