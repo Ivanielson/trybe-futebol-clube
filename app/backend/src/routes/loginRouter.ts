@@ -11,7 +11,7 @@ loginRoute.post(
   validate.passwordExist,
   validate.passwordValid,
   validate.validUser,
-  LoginController.login,
+  LoginController.authentication,
 );
 
 loginRoute.get(
