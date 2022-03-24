@@ -56,7 +56,7 @@ const emailValid = (req: Request, res: Response, next: NextFunction) => {
 
 const validUser = async (req: Request, res: Response, next: NextFunction) => {
   const login = req.body as IUser;
-  const user = await LoginService.authentication(login.email);
+  const user = await LoginService.getUserByEmail(login.email);
   if (!user) {
     return res.status(StatusCode.UNAUTHORIZED).json({
       message: MESSAGE_ERROR_INCORRECT,
