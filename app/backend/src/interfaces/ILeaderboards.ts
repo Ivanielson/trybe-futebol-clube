@@ -32,7 +32,35 @@ interface ILeaderboardsResult {
   efficiency: number;
 }
 
+interface ILeaderboardsHome {
+  id: number;
+  clubName: string;
+  homeClub: [{
+    id: number;
+    homeTeam: number;
+    homeTeamGoals: number;
+    awayTeam: number;
+    awayTeamGoals: number;
+    inProgress: boolean
+  }],
+}
+
+interface ILeaderboardsAway {
+  id: number;
+  clubName: string;
+  awayClub: [{
+    id: number;
+    homeTeam: number;
+    homeTeamGoals: number;
+    awayTeam: number;
+    awayTeamGoals: number;
+    inProgress: boolean;
+  }]
+}
+
 export {
   ILeaderboards,
   ILeaderboardsResult,
+  ILeaderboardsHome,
+  ILeaderboardsAway,
 };
