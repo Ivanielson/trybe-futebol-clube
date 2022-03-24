@@ -130,4 +130,47 @@ describe('Rotas matchs', () => {
       expect(chaiHttpResponse.status).to.be.equal(201);
     });
   });
+
+  describe('Requisição para "PATCH /matchs/:id"', () => {
+    let chaiHttpResponse: Response;
+
+    const payLoad = {
+      homeTeamGoals: 3,
+      awayTeamGoals: 1,
+    }
+
+    before(async () => {
+      Sinon.stub(MatchService, 'updateMatch')
+        .resolves({
+          homeTeamGoals: 3,
+          awayTeamGoals: 1,
+        });
+    });
+
+    after(() => {
+      (MatchService.updateMatch as Sinon.SinonStub).restore();
+    });
+    it('Deveria retornar um objeto com as propriedades corretas', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/7')
+        .send(payLoad);
+
+      expect(chaiHttpResponse.body).to.be.have.a('object');
+      expect(chaiHttpResponse.body).to.be.have.a.property('homeTeamGoals');
+      expect(chaiHttpResponse.body).to.be.have.a.property('awayTeamGoals');
+    });
+
+    it(`Retorne um objeto com os valores passados no body e
+      com status da requisição: 200`, async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/7')
+        .send(payLoad);
+
+      expect(chaiHttpResponse.status).to.be.equal(200);
+      expect(chaiHttpResponse.body.homeTeamGoals).to.be.equal(3);
+      expect(chaiHttpResponse.body.awayTeamGoals).to.be.equal(1);
+    });
+  });
 });
