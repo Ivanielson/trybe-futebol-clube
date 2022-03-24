@@ -20,4 +20,13 @@ export default class LeaderBoardController {
       console.error(error);
     }
   }
+
+  static async getLeaderboardAway(_req: Request, res: Response) {
+    try {
+      const result = await LeaderBoardService.getLeaderboardAway();
+      return res.status(StatusCode.OK).json(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
