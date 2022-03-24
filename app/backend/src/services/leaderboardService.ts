@@ -15,7 +15,8 @@ export default class LeaderBoardService {
       });
       const result = leaderboards(matchs as unknown as ILeaderboards[]);
       const ranking = resultRanking(result);
-      return ranking;
+      console.log(ranking);
+      return matchs as unknown as ILeaderboards[];
     } catch (error) {
       console.error(error);
     }
