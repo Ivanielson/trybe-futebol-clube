@@ -1,6 +1,10 @@
 import * as bcrypt from 'bcryptjs';
 import { ILeaderboards, ILeaderboardsResult } from '../interfaces/ILeaderboards';
 import IUser from '../interfaces/IUser';
+import {
+  victoriesDrawsLossesTeamHome,
+  pointsTeamHOme,
+} from './helpersLeaderBoardsHome';
 
 type ResultMattch = [{
   homeTeamGoals: number;
@@ -26,28 +30,25 @@ const checkPassword = (hashDb: string, password: string) => {
 };
 
 const pointsTeam = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
-  let points = 0;
-  matchsHome.forEach(({ homeTeamGoals, awayTeamGoals }) => {
-    if (homeTeamGoals > awayTeamGoals) points += 3;
-    if (homeTeamGoals === awayTeamGoals) points += 1;
-  });
+  const pointsHome = pointsTeamHOme(matchsHome);
+  let pointsAway = 0;
   matchsAway.forEach(({ homeTeamGoals, awayTeamGoals }) => {
-    if (awayTeamGoals > homeTeamGoals) points += 3;
-    if (homeTeamGoals === awayTeamGoals) points += 1;
+    if (awayTeamGoals > homeTeamGoals) pointsAway += 3;
+    if (homeTeamGoals === awayTeamGoals) pointsAway += 1;
   });
 
-  return points;
+  return {
+    pointsHome,
+    pointsAway,
+  };
 };
 
-const victoriesDrawsLossesTeam = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
+// retorna vitórias, empates e derrotas de jogos Fora (para Classificação Away)
+
+const victoriesDrawsLossesTeamAway = (matchsAway: ResultMattch) => {
   let victories = 0;
   let draws = 0;
   let losses = 0;
-  matchsHome.forEach(({ homeTeamGoals, awayTeamGoals }) => {
-    if (homeTeamGoals > awayTeamGoals) victories += 1;
-    if (homeTeamGoals === awayTeamGoals) draws += 1;
-    if (homeTeamGoals < awayTeamGoals) losses += 1;
-  });
   matchsAway.forEach(({ homeTeamGoals, awayTeamGoals }) => {
     if (awayTeamGoals > homeTeamGoals) victories += 1;
     if (awayTeamGoals === homeTeamGoals) draws += 1;
@@ -58,6 +59,19 @@ const victoriesDrawsLossesTeam = (matchsHome: ResultMattch, matchsAway: ResultMa
     victories,
     draws,
     losses,
+  };
+};
+
+// retorna vitórias, empates e derrotas de todos os jogos ( para Classificação Geral)
+
+const victoriesDrawsLossesTeam = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
+  const resultHome = victoriesDrawsLossesTeamHome(matchsHome);
+  const resultAway = victoriesDrawsLossesTeamAway(matchsAway);
+
+  return {
+    victories: resultHome.victories + resultAway.victories,
+    draws: resultHome.draws + resultAway.draws,
+    losses: resultHome.losses + resultAway.losses,
   };
 };
 
@@ -82,21 +96,26 @@ const goalsFavorOwn = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
 };
 
 const games = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
-  const totalGames = matchsHome.length + matchsAway.length;
-  return totalGames;
+  const gamesHome = matchsHome.length;
+  const gamesAway = matchsAway.length;
+  return {
+    gamesHome,
+    gamesAway,
+  };
 };
 
 const pointsCalculator = (resultMatches: ILeaderboards) => {
   const { homeClub, awayClub } = resultMatches;
-  const points = pointsTeam(homeClub, awayClub);
-  const totalGames = games(homeClub, awayClub);
+  const { pointsHome, pointsAway } = pointsTeam(homeClub, awayClub);
+  const { gamesHome, gamesAway } = games(homeClub, awayClub);
   const { victories, draws, losses } = victoriesDrawsLossesTeam(homeClub, awayClub);
   const { goalsFavor, goalsOwn } = goalsFavorOwn(homeClub, awayClub);
-  const efficiency = Number(((points / (totalGames * 3)) * 100).toFixed(2));
+  const efficiency = Number((((pointsHome + pointsAway) / ((gamesHome + gamesAway) * 3)) * 100)
+    .toFixed(2));
 
   return {
-    totalGames,
-    points,
+    totalGames: gamesHome + gamesAway,
+    points: pointsHome + pointsAway,
     draws,
     victories,
     losses,
@@ -125,12 +144,23 @@ const leaderboards = (resultMatches: ILeaderboards[]) => {
 };
 
 const resultRanking = (board: ILeaderboardsResult[]) => {
-  // const resulOrder = board
-  //   .sort((a, b) => b.totalPoints - a.totalPoints)
-  //   .sort((a, b) => b.goalsBalance - a.goalsBalance)
-  //   .sort((a, b) => b.goalsFavor - a.goalsFavor)
-  //   .sort((a, b) => b.goalsOwn - a.goalsOwn);
-  const resulOrder = board.sort((a, b) => b.totalPoints - a.totalPoints);
+  const resulOrder = board.sort((a, b) => b.totalPoints - a.totalPoints)
+    .sort((a, b) => {
+      if (a.totalPoints === b.totalPoints) return b.goalsBalance - a.goalsBalance;
+      return 0;
+    }).sort((a, b) => {
+      if (a.totalPoints === b.totalPoints && a.totalVictories === b.totalVictories) {
+        return b.goalsFavor - a.goalsFavor;
+      }
+      return 0;
+    }).sort((a, b) => {
+      if ((a.totalPoints === b.totalPoints
+        && a.totalVictories === b.totalVictories
+        && a.goalsFavor === b.goalsFavor)) {
+        return b.goalsOwn - a.goalsOwn;
+      }
+      return 0;
+    });
 
   return resulOrder;
 };
