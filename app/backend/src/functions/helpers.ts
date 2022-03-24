@@ -149,15 +149,15 @@ const resultRanking = (board: ILeaderboardsResult[]) => {
       if (a.totalPoints === b.totalPoints) return b.goalsBalance - a.goalsBalance;
       return 0;
     }).sort((a, b) => {
-      if (a.totalPoints === b.totalPoints && a.totalVictories === b.totalVictories) {
+      if (a.totalPoints === b.totalPoints && a.goalsBalance === b.goalsBalance) {
         return b.goalsFavor - a.goalsFavor;
       }
       return 0;
     }).sort((a, b) => {
       if ((a.totalPoints === b.totalPoints
-        && a.totalVictories === b.totalVictories
+        && a.goalsBalance === b.goalsBalance
         && a.goalsFavor === b.goalsFavor)) {
-        return b.goalsBalance - a.goalsBalance;
+        return b.goalsOwn - a.goalsOwn;
       }
       return 0;
     });
