@@ -2,11 +2,9 @@ import { Request, Response } from 'express';
 import { ILogin } from '../interfaces/ILogin';
 import LoginService from '../services/loginService';
 import StatusCode from '../enums/StatusCode';
-import { toUserLogin } from '../functions/helpers';
-import generatorJwt from '../functions/generatorJWT';
 
 export default class LoginController {
-  static async login(req: Request, res: Response) {
+  static async authentication(req: Request, res: Response) {
     try {
       const user = req.body as ILogin;
       const userValid = await LoginService.authentication(user.email);
@@ -15,9 +13,7 @@ export default class LoginController {
           message: 'Incorrect email or password',
         });
       }
-      const token = generatorJwt(userValid);
-      const result = toUserLogin(userValid, token);
-      res.status(StatusCode.OK).json(result);
+      res.status(StatusCode.OK).json(userValid);
     } catch (error) {
       console.error(error);
     }
