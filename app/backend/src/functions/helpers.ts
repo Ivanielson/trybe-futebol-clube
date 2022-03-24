@@ -2,6 +2,10 @@ import * as bcrypt from 'bcryptjs';
 import { ILeaderboards, ILeaderboardsResult } from '../interfaces/ILeaderboards';
 import IUser from '../interfaces/IUser';
 import {
+  pointsTeamAway,
+  victoriesDrawsLossesTeamAway,
+} from './helpersLeaderBoardsAway';
+import {
   victoriesDrawsLossesTeamHome,
   pointsTeamHome,
 } from './helpersLeaderBoardsHome';
@@ -31,34 +35,11 @@ const checkPassword = (hashDb: string, password: string) => {
 
 const pointsTeam = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
   const pointsHome = pointsTeamHome(matchsHome);
-  let pointsAway = 0;
-  matchsAway.forEach(({ homeTeamGoals, awayTeamGoals }) => {
-    if (awayTeamGoals > homeTeamGoals) pointsAway += 3;
-    if (homeTeamGoals === awayTeamGoals) pointsAway += 1;
-  });
+  const pointsAway = pointsTeamAway(matchsAway);
 
   return {
     pointsHome,
     pointsAway,
-  };
-};
-
-// retorna vitórias, empates e derrotas de jogos Fora (para Classificação Away)
-
-const victoriesDrawsLossesTeamAway = (matchsAway: ResultMattch) => {
-  let victories = 0;
-  let draws = 0;
-  let losses = 0;
-  matchsAway.forEach(({ homeTeamGoals, awayTeamGoals }) => {
-    if (awayTeamGoals > homeTeamGoals) victories += 1;
-    if (awayTeamGoals === homeTeamGoals) draws += 1;
-    if (awayTeamGoals < homeTeamGoals) losses += 1;
-  });
-
-  return {
-    victories,
-    draws,
-    losses,
   };
 };
 
