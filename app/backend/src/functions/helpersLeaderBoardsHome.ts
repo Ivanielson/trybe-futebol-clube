@@ -5,7 +5,7 @@ type ResultMattch = [{
   awayTeamGoals: number;
 }];
 
-export const pointsTeamHOme = (matchsHome: ResultMattch) => {
+export const pointsTeamHome = (matchsHome: ResultMattch) => {
   let pointsHome = 0;
   matchsHome.forEach(({ homeTeamGoals, awayTeamGoals }) => {
     if (homeTeamGoals > awayTeamGoals) pointsHome += 3;
@@ -51,7 +51,7 @@ export const gamesHome = (matchsHome: ResultMattch): number => matchsHome.length
 
 export const pointsCalculatorHome = (resultMatchs: ILeaderboardsHome) => {
   const { homeClub } = resultMatchs;
-  const points = pointsTeamHOme(homeClub);
+  const points = pointsTeamHome(homeClub);
   const totalGames = gamesHome(homeClub);
   const { victories, draws, losses } = victoriesDrawsLossesTeamHome(homeClub);
   const { goalsFavor, goalsOwn } = goalsFavorOwnHome(homeClub);

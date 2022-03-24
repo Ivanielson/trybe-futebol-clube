@@ -3,7 +3,7 @@ import { ILeaderboards, ILeaderboardsResult } from '../interfaces/ILeaderboards'
 import IUser from '../interfaces/IUser';
 import {
   victoriesDrawsLossesTeamHome,
-  pointsTeamHOme,
+  pointsTeamHome,
 } from './helpersLeaderBoardsHome';
 
 type ResultMattch = [{
@@ -30,7 +30,7 @@ const checkPassword = (hashDb: string, password: string) => {
 };
 
 const pointsTeam = (matchsHome: ResultMattch, matchsAway: ResultMattch) => {
-  const pointsHome = pointsTeamHOme(matchsHome);
+  const pointsHome = pointsTeamHome(matchsHome);
   let pointsAway = 0;
   matchsAway.forEach(({ homeTeamGoals, awayTeamGoals }) => {
     if (awayTeamGoals > homeTeamGoals) pointsAway += 3;
@@ -157,7 +157,7 @@ const resultRanking = (board: ILeaderboardsResult[]) => {
       if ((a.totalPoints === b.totalPoints
         && a.totalVictories === b.totalVictories
         && a.goalsFavor === b.goalsFavor)) {
-        return b.goalsOwn - a.goalsOwn;
+        return b.goalsBalance - a.goalsBalance;
       }
       return 0;
     });
