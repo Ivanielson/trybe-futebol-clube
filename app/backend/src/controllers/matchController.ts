@@ -9,7 +9,7 @@ type MatchUpdate = {
 };
 
 export default class MatchContoller {
-  static async getAll(_req: Request, res: Response) {
+  static async getAll(_req: Request, res: Response): Promise<Response | undefined> {
     try {
       const matchs = await MatchService.getAll();
       return res.status(StatusCode.OK).json(matchs);
@@ -18,7 +18,7 @@ export default class MatchContoller {
     }
   }
 
-  static async create(req: Request, res: Response) {
+  static async create(req: Request, res: Response): Promise<Response | undefined> {
     try {
       const match = req.body as IMatchNew;
       const newMatch = await MatchService.create(match);
@@ -28,7 +28,7 @@ export default class MatchContoller {
     }
   }
 
-  static async finishMatch(req: Request, res: Response) {
+  static async finishMatch(req: Request, res: Response): Promise<Response | undefined> {
     try {
       const { id } = req.params;
       const { inProgress } = req.body;
@@ -40,7 +40,7 @@ export default class MatchContoller {
     }
   }
 
-  static async updateMatch(req: Request, res: Response) {
+  static async updateMatch(req: Request, res: Response): Promise<Response | undefined> {
     try {
       const { id } = req.params;
       const goals = req.body as MatchUpdate;
