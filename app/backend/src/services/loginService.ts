@@ -31,7 +31,7 @@ export default class LoginService {
     }
   }
 
-  static async getUserByEmail(email: string) {
+  static async getUserByEmail(email: string): Promise<IUser | undefined> {
     try {
       const user = await Users.findOne({ where: { email } });
       return user as IUser;
