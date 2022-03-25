@@ -8,25 +8,21 @@ type MatchUpdate = {
 };
 
 export default class MatchService {
-  static async getAll() {
+  static async getAll(): Promise<IMatch[] | undefined> {
     try {
-      const matchs = await Matchs.findAll({ include: [
-        { model: Clubs,
-          as: 'homeClub',
-          attributes: ['clubName'],
-        }, {
-          model: Clubs,
-          as: 'awayClub',
-          attributes: ['clubName'],
-        },
-      ] });
+      const matchs = await Matchs.findAll({
+        include: [
+          { model: Clubs, as: 'homeClub', attributes: ['clubName'] },
+          { model: Clubs, as: 'awayClub', attributes: ['clubName'] },
+        ],
+      });
       return matchs as unknown as IMatch[];
     } catch (error) {
       console.error(error);
     }
   }
 
-  static async create(match: IMatchNew) {
+  static async create(match: IMatchNew): Promise<object | undefined> {
     const {
       homeTeam,
       awayTeam,
@@ -46,19 +42,16 @@ export default class MatchService {
     }
   }
 
-  static async finishMatch(id: number, inProgress: number) {
+  static async finishMatch(id: number, inProgress: number): Promise<object | undefined> {
     try {
-      await Matchs.update(
-        { inProgress },
-        { where: { id } },
-      );
+      await Matchs.update({ inProgress }, { where: { id } });
       return { inProgress };
     } catch (error) {
       console.error(error);
     }
   }
 
-  static async updateMatch(id: number, goals: MatchUpdate) {
+  static async updateMatch(id: number, goals: MatchUpdate): Promise<object | undefined> {
     try {
       const { homeTeamGoals, awayTeamGoals } = goals;
       await Matchs.update(
