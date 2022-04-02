@@ -26,7 +26,11 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
 ## Como executar a aplicação localmente (na sua máquina) ?
 
-> Para executar a aplicação localmente, é necessario ter o `docker` e `docker-compose` instalados na sua máquina.
+> Para executar a aplicação localmente, é necessario ter um ambiente node configurado na sua máquina, além do `docker` e `docker-compose` instalados.
+
+---
+
+## Caso não tenha o docker e docker-compose instalados e deseje fazer a instalação, siga os passos abaixo:
 
 ### Instalação do docker(via repositórios) e docker-compose no Ubuntu.
 
@@ -39,18 +43,18 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
   #### Desinstalando versões anteriores.
   
-  1 - Caso você já possua alguma versão instalada na sua máquina e queira refazer o processo de instalação desde o princípio por qualquer motivo, seja     pra atualizar ou para corrigir algum problema, primeiro você deve remover os pacotes da versão que está na sua máquina. Para isso, utilize o seguinte     comando no terminal:
+  1 - Caso você já possua alguma versão instalada na sua máquina e queira refazer o processo de instalação desde o princípio por qualquer motivo, seja pra atualizar ou para corrigir algum problema, primeiro você deve remover os pacotes da versão que está na sua máquina. Para isso, utilize o seguinte comando no terminal:
   
   ```
-  sudo apt-get remove docker* containerd runc
+  sudo apt-get remove docker docker-engine docker.io containerd runc
   ```
 
-  Caso nenhum dos pacotes esteja instalado, esse comando retornará um erro **E: Impossível encontrar o \<nome-do-pacote>** , nesse caso, é só prosseguir   com a instalação.
+  > Tudo bem se o **apt-get** relatar que nenhum desses pacotes está instalado.
 
-  #### Atualizando os índices dos pacotes do apt.
+  ### Atualizando os índices dos pacotes do apt.
   
   * No terminal, utilize o comando **update** para atualizar os índices dos pacotes do **apt** :
-  
+
   ```
   sudo apt-get update
   ```
@@ -60,12 +64,13 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   sudo apt-get upgrade
   ```
   
-  #### Habilitando HTTPS para o apt.
+  ### Habilitando HTTPS para o apt.
   
   * Instale os seguintes pacotes, eles são recomendados pela documentação oficial para habilitar a utilização dos repositórios via HTTPS pelo apt-get , precisaremos disso para prosseguir a instalação:
   
   ```
   sudo apt-get install \
+    apt-transport-https \
     ca-certificates \
     curl \
     gnupg \
@@ -89,8 +94,8 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
   ```
   echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   ```
   
   #### Instalando Docker Engine.
@@ -103,7 +108,7 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   em seguida:
   
   ```
-  apt-get install docker-ce docker-ce-cli containerd.io
+  sudo apt-get install docker-ce docker-ce-cli containerd.io
   ```
   ---
   
@@ -137,7 +142,7 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   ```
   ---
   
-  #### Iniciando o Daemon do Docker.
+  ### Iniciando o Daemon do Docker.
   
   * Para consultar o status do daemon do Docker, execute:
   
@@ -150,16 +155,19 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   `
   
   ```
-  ● docker.service - Docker Application Container Engine
+   docker.service - Docker Application Container Engine
      Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
-     Active: inactive (dead) since Thu 2021-09-23 11:55:11 -03; 2s ago
+     Active: active (running) since Sat 2022-04-02 13:29:54 -03; 3h 24min ago
 TriggeredBy: ● docker.socket
        Docs: https://docs.docker.com
-    Process: 2034 ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock (code=exited, status=0>
-   Main PID: 2034 (code=exited, status=0/SUCCESS
+   Main PID: 1418 (dockerd)
+   ...
+
+   lines 1-27/27 (END)
   ```
-  
-  Caso o parâmetro **Active** esteja como ´stop/waiting´ ou no nosso caso, como inactive , rode o comando start para iniciá-lo:
+  - Pressione a tecla **q** para sair dessa tela de detalhes.
+
+  Caso o parâmetro **Active** esteja como ´stop/waiting´ ou como inactive , rode o comando start para iniciá-lo:
   
   ```
   sudo systemctl start docker
@@ -207,7 +215,7 @@ Share images, automate workflows, and more with a free Docker ID:
   
   ---
   
-  ### Após executar e testar a aplicação. Caso querira desinstalar o docker, execute os seguintes comandos:
+  ### Após executar e testar a aplicação. Caso queira desinstalar o docker, execute os seguintes comandos:
   
   * Desinstale os pacotes Docker Engine, CLI e Containerd:
 
@@ -270,7 +278,7 @@ sudo rm -rf /var/lib/containerd
    - No seu terminal, dentro de um diretório (pasta) de sua escolha, execute o seguinte comando:
   
   ```
-    git clone git@github.com:Ivanielson/trybe-futebol-clube.git
+  git clone git@github.com:Ivanielson/trybe-futebol-clube.git
   ```
   
   **2. Entre na pasta do repositório que você acabou de clonar:**
@@ -278,7 +286,7 @@ sudo rm -rf /var/lib/containerd
    - Execute no seu terminal o seguinte comando:
     
   ```
-    cd trybe-futebol-clube
+  cd trybe-futebol-clube
   ```
     
    **3. Instale as dependências do projeto:**
@@ -286,7 +294,7 @@ sudo rm -rf /var/lib/containerd
    - Execute no seu terminal o seguinte comando:
     
   ```
-    npm install
+  npm install
   ```
 ---
 
@@ -315,7 +323,11 @@ Se tudo der certo, você de receber uma mensagem no final da sua tela semelhante
 http://localhost:3000/leaderboard
 ```
 
-> Para adicionar partidas é necessário efetuar login na aplicação. Para efetuar o login, você pode usar essas credenciais: `email: admin@admin.com` e `password: secret_admin`.
+**Você verá algum parecido com isso:**
+
+![Exibe uma imagem do tipo gif, com um demostração da aplicação rodando](./front-example.gif)
+
+> Para adicionar ou editar partidas é necessário efetuar login na aplicação. Para efetuar o login, você pode usar essas credenciais: `email: admin@admin.com` e `password: secret_admin`.
 
 Agora é só navegar por toda a aplicação.
 
@@ -342,3 +354,27 @@ Você deve receber uma mensagem no seu terminal semelhante a essa:
     
 
 ---
+
+## **Versões** utilizado na execução do projeto.
+
+| Nodejs   | Docker   | Docker-compose  | npm    |
+| -------- | -------- | --------------- | ------ |
+| v14.16.1 | 20.10.12 | 1.29.2          | 7.18.1 |
+
+---
+
+## Referências utilizadas na criação do README.
+
+- ### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/)
+
+- ### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/)
+
+- ### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm)
+
+- ### [Markdown](https://pt.wikipedia.org/wiki/Markdown)
+
+- ### [Markdown github cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
+- ### [Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+
+- ### [Conteúdos da Trybe, referentes a instalação do docker e docker compose](https://www.betrybe.com/)
