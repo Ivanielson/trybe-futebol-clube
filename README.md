@@ -1,6 +1,6 @@
 # Boas vindas ao repositório do TFC - Trybe Futebol Clube! ⚽️
 
-Nesse porjeto desenvolvi uma API para servir uma aplicação frontend que já foi me passada pronta, o intuito do projeto era desenvolver uma API para prover dados com informações de clubes, partidas e classificação dos clubes.
+O app Trybe futebol clube, é uma aplicação que simula a classificação de times em um campeonato de acordo com o resultado das partidas. O desenvolvimento do projeto foi iniciado com o frontend já pronto, no frontend foi configurado apenas o dockerfile para que fosse possível dockerizar a aplicação. Ao iniciar o desenvolvimento, também tive que fazer alguns ajustes no arquivo docker-compose para que fosse possível a comunicação entre os containers do frontend, backend e database(Mysql). O intuito do projeto, era desenvolver uma API para prover(servir) o frontend da aplicação, de dados relacionado aos clubes, partidas e classificação dos clubes.
 
 ## Tecnologias e conceitos utilizados:
 
@@ -8,6 +8,7 @@ Nesse porjeto desenvolvi uma API para servir uma aplicação frontend que já fo
 * Typescript
 * Sequelize - MySql
 * Nodejs
+* Docker
 * Conceitos de POO
 * Conceitos de S.O.L.I.D
 * Testes de integração com:
@@ -15,6 +16,12 @@ Nesse porjeto desenvolvi uma API para servir uma aplicação frontend que já fo
   - chai
   - sinon
  
+ 
+ 
+**Segue amostra da tela de classificação da aplicação:**
+
+![Exibe tela de classificação dos clubes](front-example.png)
+
 ---
 
 ## Como executar a aplicação localmente (na sua máquina) ?
@@ -221,7 +228,7 @@ sudo rm -rf /var/lib/containerd
 
 ### Instalação do docker-compose.
 
-  #### Instalação.
+  ##### Instalação.
 
   * Execute este comando para baixar a versão estável atual do Docker Compose:
 
@@ -240,3 +247,98 @@ sudo rm -rf /var/lib/containerd
   docker-compose --version
   ```
   `Devem ser exibidos os detalhes da versão instalada em seu terminal.`
+
+  #### Desinstalação do docker-compose.
+  
+  > Após executar e testar a aplicação. Caso querira desinstalar o docker-compose.
+  
+  Para desinstalar o Docker Compose execute no seu terminal o seguinte comando:
+  
+  ``` 
+  sudo rm /usr/local/bin/docker-compose
+  ```
+  
+  ---
+  
+  
+  ## Após feita a instalação do Docker e Docker-compose, é hora de clonar a aplicação para sua máquina.
+  
+  ### clonando o respositório.
+  
+  **1. Clone o repositória para um diretório em seu computador:**
+
+   - No seu terminal, dentro de um diretório (pasta) de sua escolha, execute o seguinte comando:
+  
+  ```
+    git clone git@github.com:Ivanielson/trybe-futebol-clube.git
+  ```
+  
+  **2. Entre na pasta do repositório que você acabou de clonar:**
+  
+   - Execute no seu terminal o seguinte comando:
+    
+  ```
+    cd trybe-futebol-clube
+  ```
+    
+   **3. Instale as dependências do projeto:**
+
+   - Execute no seu terminal o seguinte comando:
+    
+  ```
+    npm install
+  ```
+---
+
+## Repositório clonado. É hora de executar (start) a aplicação.
+
+### Start o app Trybe futebol clube:
+
+**1. Para executar a aplicação:**
+
+* Execute o seguinte comando no terminal e aguarde a execução de todo processo:
+
+```
+npm run compose:up 
+```
+Se tudo der certo, você de receber uma mensagem no final da sua tela semelhante a essa:
+
+    Creating db ... done
+    Creating app_backend_1 ... done
+    Creating app_frontend_1 ... done
+
+**2. Após a conclução do comando anterior. Acesse a aplicação no seu navegador.**
+
+* Para acessar a aplicação, abra uma aba no seu navegador, cole a url a seguir e tecle em **enter**:
+
+```
+http://localhost:3000/leaderboard
+```
+
+> Para adicionar partidas é necessário efetuar login na aplicação. Para efetuar o login, você pode usar essas credenciais: `email: admin@admin.com` e `password: secret_admin`.
+
+Agora é só navegar por toda a aplicação.
+
+
+### Stop o app Trybe futebol clube:
+
+1. Depois de navegar pela aplicação, caso queira parar a execução.
+
+* Execute no seu terminal dentro do diretório (pasta) do projeto o seguinte comando:
+
+```
+npm run compose:down
+```
+
+Você deve receber uma mensagem no seu terminal semelhante a essa:
+
+    Stopping app_frontend_1 ... done
+    Stopping app_backend_1  ... done
+    Stopping db             ... done
+    Removing app_frontend_1 ... done
+    Removing app_backend_1  ... done
+    Removing db             ... done
+    Removing network app_default    
+    
+
+---
