@@ -392,18 +392,18 @@ Você deve receber uma mensagem no seu terminal semelhante a essa:
 
 ## Referências utilizadas na criação do README.
 
-- ### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/);
+- #### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/);
 
-- ### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/);
+- #### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/);
 
-- ### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm);
+- #### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm);
 
-- ### [Markdown](https://pt.wikipedia.org/wiki/Markdown);
+- #### [Markdown](https://pt.wikipedia.org/wiki/Markdown);
 
-- ### [Markdown github cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet);
+- #### [Markdown github cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet);
 
-- ### [Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md);
+- #### [Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md);
 
-- ### [Conteúdos da Trybe, referentes a instalação do docker e docker compose](https://www.betrybe.com/);
+- #### [Conteúdos da Trybe, referentes a instalação do docker e docker compose](https://www.betrybe.com/);
 
-- ### [Markdown Badge](https://github.com/Ileriayo/markdown-badges#badges);
+- #### [Markdown Badge](https://github.com/Ileriayo/markdown-badges#badges);
