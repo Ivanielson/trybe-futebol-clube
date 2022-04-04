@@ -4,6 +4,14 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
 ## Tecnologias e conceitos utilizados:
 
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
+
 * Express
 * Typescript
 * Sequelize - MySql
@@ -249,7 +257,7 @@ sudo rm -rf /var/lib/containerd
   sudo chmod +x /usr/local/bin/docker-compose
   ```
   
-  *E se tudo ocorrer bem, para validar a instalação basta executar o seguinte comando:
+  * E se tudo ocorrer bem, para validar a instalação basta executar o seguinte comando:
   
   ```
   docker-compose --version
@@ -332,6 +340,25 @@ http://localhost:3000/leaderboard
 Agora é só navegar por toda a aplicação.
 
 
+---
+
+### Como rodar os testes no backend da aplicação.
+
+- A partir da raiz do projeto `trybe-futebol-clube/`, execute o seguinte comando no seu terminal:
+
+```
+cd app/backend/
+```
+
+dessa forma, você entrará no diretório de backend do projeto, em seguida execute o comando para rodar os testes:
+
+```
+npm test
+```
+
+---
+
+
 ### Stop o app Trybe futebol clube:
 
 1. Depois de navegar pela aplicação, caso queira parar a execução.
@@ -365,16 +392,18 @@ Você deve receber uma mensagem no seu terminal semelhante a essa:
 
 ## Referências utilizadas na criação do README.
 
-- ### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/)
+- ### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/);
 
-- ### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/)
+- ### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/);
 
-- ### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm)
+- ### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm);
 
-- ### [Markdown](https://pt.wikipedia.org/wiki/Markdown)
+- ### [Markdown](https://pt.wikipedia.org/wiki/Markdown);
 
-- ### [Markdown github cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- ### [Markdown github cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet);
 
-- ### [Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- ### [Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md);
 
-- ### [Conteúdos da Trybe, referentes a instalação do docker e docker compose](https://www.betrybe.com/)
+- ### [Conteúdos da Trybe, referentes a instalação do docker e docker compose](https://www.betrybe.com/);
+
+- ### [Markdown Badge](https://github.com/Ileriayo/markdown-badges#badges);
