@@ -18,7 +18,6 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 * Nodejs
 * Docker
 * Conceitos de POO
-* Conceitos de S.O.L.I.D
 * Testes de integração com:
   - mocha
   - chai
@@ -34,7 +33,7 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
 ## Como executar a aplicação localmente (na sua máquina) ?
 
-> Para executar a aplicação localmente, é necessario ter um ambiente node configurado na sua máquina, além do `docker` e `docker-compose` instalados.
+> Para executar a aplicação localmente, é necessario ter um **ambiente node** configurado na sua máquina, além do `docker` e `docker-compose` instalados.
 
 ---
 
@@ -49,9 +48,9 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 | Ubuntu         | Ubuntu 20.04.3 LTS | 20.04   | focal    |
 
 
-  #### Desinstalando versões anteriores.
+  ### Desinstalando versões anteriores.
   
-  1 - Caso você já possua alguma versão instalada na sua máquina e queira refazer o processo de instalação desde o princípio por qualquer motivo, seja pra atualizar ou para corrigir algum problema, primeiro você deve remover os pacotes da versão que está na sua máquina. Para isso, utilize o seguinte comando no terminal:
+  1 - Versões mais antigas do Docker eram chamadas de `docker`, `docker.io`, ou `docker-engine`. Se estes estiverem instalados, desinstale-os:
   
   ```
   sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -59,22 +58,20 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
 
   > Tudo bem se o **apt-get** relatar que nenhum desses pacotes está instalado.
 
-  ### Atualizando os índices dos pacotes do apt.
+
+### Instalação usando o repositório.
+> Antes de instalar o Docker Engine pela primeira vez em uma nova máquina host, você precisa configurar o repositório do Docker. Depois, você pode instalar e atualizar o Docker a partir do repositório.
+
+
+  ### Configurar o repositório.
   
-  * No terminal, utilize o comando **update** para atualizar os índices dos pacotes do **apt** :
+  1. Atualize o `apt` índice de pacotes executando o seguinte comando no seu terminal :
 
   ```
   sudo apt-get update
-  ```
-  * **Opcionalmente** , atualize seus pacotes antes de fazer uma nova instalação:
-  
-  ```
-  sudo apt-get upgrade
-  ```
-  
-  ### Habilitando HTTPS para o apt.
-  
-  * Instale os seguintes pacotes, eles são recomendados pela documentação oficial para habilitar a utilização dos repositórios via HTTPS pelo apt-get , precisaremos disso para prosseguir a instalação:
+```
+
+  2. Instale pacotes para permitir que o `apt` faça uso do repositório por HTTPS:
   
   ```
   sudo apt-get install \
@@ -84,10 +81,8 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
     gnupg \
     lsb-release
   ```
-  
-  #### Adicionando uma chave de acesso ao repositório remoto.
-  
-  * Adicione a chave GPG oficial do Docker
+
+  3. Adicione a chave GPG oficial do Docker
 
   ```
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -95,23 +90,21 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   ``
   Obs: Se tudo correr bem, você não deve receber nenhum retorno visual.
   ``
-  
-  #### Adicionando o repositório.
-  
-  * Use o comando a seguir para configurar o repositório **estável**:
+
+  4. Use o comando a seguir para configurar o repositório **estável**:
 
   ```
   echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   ```
   
-  #### Instalando Docker Engine.
+  ### Instalando Docker Engine.
   
-  * Atualize o aptíndice de pacotes e instale a versão mais recente do Docker Engine e do containerd ou vá para a próxima etapa para instalar uma versão específica:
+  1. Atualize o `apt` índice de pacotes e instale a versão mais recente do Docker Engine e do containerd:
 
   ```
-  apt-get update
+  sudo apt-get update
   ```
   em seguida:
   
@@ -120,15 +113,15 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   ```
   ---
   
-  #### Adicionando um usuário ao grupo de usuários docker (Opcional).
+  ### Adicionando um usuário ao grupo de usuários docker (Opcional).
   
   
   :information_source: Caso prefira, não precisa executar essa etapa, na hora de executar os comandos docker, você só precisa executar utilizando ``sudo`` antecedento os comando docker.
   
   
-  > :warning: **Atenção** :warning: : Esse procedimento faz com que seu usuário tenha os mesmos privilégios do usuário root (o superusuário no linux) na    execução dos comandos Docker.
+  > :warning: **Atenção** :warning: : Esse procedimento concede privilégios equivalentes ao do usuário root (o superusuário no linux) na execução dos comandos Docker.
   
-  * Para evitar o uso de sudo em todos os comandos Docker que formos executar, vamos dar as devidas permissões ao nosso usuário. Primeiro crie um grupo     chamado docker:
+  1. Para criar o `docker` grupo e adicionar seu usuário:
 
   ```
   sudo groupadd docker
@@ -137,63 +130,19 @@ O app Trybe futebol clube, é uma aplicação que simula a classificação de ti
   Caso ocorra uma mensagem: groupadd: grupo 'docker' já existe , é só prosseguir.
   `
   
-  * E então, use o comando abaixo para adicionar seu usuário a este novo grupo. obs.: execute o comando exatamente como ele está abaixo:
+  2. Adicione seu usuário ao `docker` grupo:
 
   ```
   sudo usermod -aG docker $USER
   ```
   
-  * Para ativar as alterações realizadas aos grupos, você pode realizar logout e login de sua sessão, ou executar no terminal:
+  3. Saia e faça login novamente para que sua associação ao grupo seja reavaliada ou você também pode executar o seguinte comando para ativar as alterações nos grupos:
 
   ```
   newgrp docker
   ```
-  ---
-  
-  ### Iniciando o Daemon do Docker.
-  
-  * Para consultar o status do daemon do Docker, execute:
-  
-  ```
-  sudo systemctl status docker
-  ```
-  
-  `
-  Esse comando deve retornar algo como um pequeno relatório sobre o serviço, onde consta seu status de funcionamento:
-  `
-  
-  ```
-   docker.service - Docker Application Container Engine
-     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
-     Active: active (running) since Sat 2022-04-02 13:29:54 -03; 3h 24min ago
-TriggeredBy: ● docker.socket
-       Docs: https://docs.docker.com
-   Main PID: 1418 (dockerd)
-   ...
 
-   lines 1-27/27 (END)
-  ```
-  - Pressione a tecla **q** para sair dessa tela de detalhes.
-
-  Caso o parâmetro **Active** esteja como ´stop/waiting´ ou como inactive , rode o comando start para iniciá-lo:
-  
-  ```
-  sudo systemctl start docker
-  ```
-  
-  Ao consultar o status novamente, o processo deverá estar como `start/ running/ active`.
-  
-  #### Habilite o daemon do Docker para iniciar junto com a inicialização do sistema:
-  
-  * Execute o seguinte comando:
-
-  ```
-  sudo systemctl enable docker
-  ```
-  
-  #### Validando a instalação.
-  
-  * Para validar se tudo ocorreu como deveria na instalação, vamos executar um hello world do Docker:
+  4. Verifique se você pode executar `docker` comandos sem `sudo`.
 
   ```
   docker run hello-world
@@ -221,17 +170,54 @@ Share images, automate workflows, and more with a free Docker ID:
  https://hub.docker.com/
   ```
   
+
+  > :information_source:  Mais detalhes a respeito na **[Documentação](https://docs.docker.com/engine/install/linux-postinstall/)**
+
   ---
+
+### Instalação do docker-compose.
+
+  ##### Instalação.
+
+  1. Execute este comando para baixar a versão estável atual do Docker Compose:
+
+  ```
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  ```
+  2. Aplique permissões executáveis ao binário:
+
+  ```
+  sudo chmod +x /usr/local/bin/docker-compose
+  ```
   
-  ### Após executar e testar a aplicação. Caso queira desinstalar o docker, execute os seguintes comandos:
+  3. E se tudo ocorrer bem, para validar a instalação basta executar o seguinte comando:
   
-  * Desinstale os pacotes Docker Engine, CLI e Containerd:
+  ```
+  docker-compose --version
+  ```
+  `Devem ser exibidos os detalhes da versão instalada em seu terminal.`
+  
+  ---
+
+  ### Desinstalação do docker ou docker-compose.
+  
+  #### Após executar e testar a aplicação. Caso querira desinstalar o docker-compose.
+  
+  1. Para desinstalar o Docker Compose execute no seu terminal o seguinte comando:
+  
+  ``` 
+  sudo rm /usr/local/bin/docker-compose
+  ```
+  
+  #### Após executar e testar a aplicação. Caso querira desinstalar o docker.
+  
+  1. Desinstale os pacotes Docker Engine, CLI e Containerd:
 
   ```
   sudo apt-get purge docker-ce docker-ce-cli containerd.io
   ```
   
-  * Imagens, contêineres, volumes ou arquivos de configuração personalizados em seu host não são removidos automaticamente. Para excluir todas as imagens, contêineres e volumes:
+  2. Imagens, contêineres, volumes ou arquivos de configuração personalizados em seu host não são removidos automaticamente. Para excluir todas as imagens, contêineres e volumes execute os comados:
 
 ```
 sudo rm -rf /var/lib/docker
@@ -241,40 +227,6 @@ sudo rm -rf /var/lib/containerd
 :information_source: Para mais detalhes sobre instalação e desinstalação do docker, consulte a [documentação](https://docs.docker.com/engine/install/ubuntu/).
 
 ---
-
-### Instalação do docker-compose.
-
-  ##### Instalação.
-
-  * Execute este comando para baixar a versão estável atual do Docker Compose:
-
-  ```
-  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  ```
-  * Aplique permissões executáveis ao binário:
-
-  ```
-  sudo chmod +x /usr/local/bin/docker-compose
-  ```
-  
-  * E se tudo ocorrer bem, para validar a instalação basta executar o seguinte comando:
-  
-  ```
-  docker-compose --version
-  ```
-  `Devem ser exibidos os detalhes da versão instalada em seu terminal.`
-
-  #### Desinstalação do docker-compose.
-  
-  > Após executar e testar a aplicação. Caso querira desinstalar o docker-compose.
-  
-  Para desinstalar o Docker Compose execute no seu terminal o seguinte comando:
-  
-  ``` 
-  sudo rm /usr/local/bin/docker-compose
-  ```
-  
-  ---
   
   
   ## Após feita a instalação do Docker e Docker-compose, é hora de clonar a aplicação para sua máquina.
@@ -395,6 +347,8 @@ Você deve receber uma mensagem no seu terminal semelhante a essa:
 - #### [Instalação do Docker - Documentação](https://docs.docker.com/engine/install/ubuntu/);
 
 - #### [Instalação do Docker-compose - Documentação](https://docs.docker.com/compose/install/);
+
+- #### [Executar os comando docker sem o uso do **sudo**](https://docs.docker.com/engine/install/linux-postinstall/);
 
 - #### [Dica: Caso queira instalar o node (via nvm) ](https://github.com/nvm-sh/nvm);
 
